@@ -1,0 +1,6 @@
+cloud formation ile ec2 instance çalıştırıp
+dinamik web sitesi yapmak istersen cloudformation
+ yaml dosyası olarak yukarıdaki klasörün içinde
+cloudformation.yml ...
+
+Projede de zaten bu yapılacak... anlamaya çalış
