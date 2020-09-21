@@ -28,7 +28,7 @@ def home():
                     number %= value
             return result
 
-        return render_template('result.html',number_roman = convert(num), number_decimal= num, developer_name = "E2248-Muhammet")
+        return render_template('result.html',number_roman = convert(num), number_decimal= num, developer_name = "Muhammet POLAT")
 
     else:
         return render_template("index.html", developer_name = "Muhammet POLAT")
