@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: This template is to make a web site for Roman numeral converter.
+
+Parameters:
+  myKeyName:
+    Description: Enter KeyPair name that's in your connection directory.
+    Type: AWS::EC2::KeyPair::KeyName 
+  myInstanceType:
+    Description: WebServer EC2 instance type
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - t1.micro
+      - m1.small
+      - m1.medium
+      - m1.large
+
+Resources:
+  SecurityGroupofServer:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: for ssh http #required
+      GroupName: RomanSecGroup
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+   
+      
+  
+  RomanCFInstance :
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-02354e95b39ca8dec
+      InstanceType: !Ref myInstanceType
+      KeyName: !Ref myKeyName
+      SecurityGroups:
+        - !Ref SecurityGroupofServer
+      Tags:
+        - Key: Name
+          Value: !Join
+            - ''
+            - - 'Web Server of '
+              - !Ref AWS::StackName
+      UserData: 
+        Fn::Base64:
+          !Sub | 
+            #! /bin/bash
+            
+            yum update -y
+            yum install python3 -y
+            pip3 install flask
+
+            mkdir templates
+            wget https://raw.githubusercontent.com/polymerr/Clarusway-aws-devops-workshop/master/aws/projects/001-roman-numerals-converter/roman.py
+            cd templates
+            wget https://raw.githubusercontent.com/polymerr/Clarusway-aws-devops-workshop/master/aws/projects/001-roman-numerals-converter/templates/index.html
+            wget https://raw.githubusercontent.com/polymerr/Clarusway-aws-devops-workshop/master/aws/projects/001-roman-numerals-converter/templates/result.html
+            cd ..
+            python3 roman.py
+            
+Outputs:
+  InstanceId:
+    Description: InstanceId of the first EC2 instance
+    Value: !Ref RomanCFInstance
+  PublicDNS:
+    Description: Public DNS Name of the EC2 instance
+    Value: !Join 
+      - "://"
+      - - "http"
+        - !GetAtt 
+          - RomanCFInstance
+          - PublicDnsName
+
+
+
+
+
+        
