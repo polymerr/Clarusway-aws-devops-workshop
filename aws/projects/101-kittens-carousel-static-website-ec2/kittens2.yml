@@ -37,6 +37,10 @@ Resources:
 
             wget https://raw.githubusercontent.com/polymerr/Clarusway-aws-devops-workshop/master/aws/projects/101-kittens-carousel-static-website-ec2/README.md
 
+            mkdir kittens
+
+            cd kittens
+            
             wget https://raw.githubusercontent.com/polymerr/Clarusway-aws-devops-workshop/master/aws/projects/101-kittens-carousel-static-website-ec2/static-web/index.html
 
             wget https://raw.githubusercontent.com/polymerr/Clarusway-aws-devops-workshop/master/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat0.jpg
@@ -45,6 +49,7 @@ Resources:
 
             wget https://raw.githubusercontent.com/polymerr/Clarusway-aws-devops-workshop/master/aws/projects/101-kittens-carousel-static-website-ec2/static-web/cat2.jpg
  
+            cd ..
             
             sudo systemctl restart httpd
 
